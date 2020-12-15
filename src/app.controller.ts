@@ -1,12 +1,23 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
+import { TestDto } from './test.dto';
 import { AppService } from './app.service';
+import {
+  ApiBody,
+  ApiUnauthorizedResponse,
+  ApiCreatedResponse,
+  ApiBadRequestResponse,
+  ApiUnprocessableEntityResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
+  @ApiBody({ type: TestDto })
+  @Post()
+  getHello(@Body() body: TestDto): string {
     return this.appService.getHello();
   }
 }
