@@ -1,14 +1,13 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { TestDto } from './test.dto';
 import { AppService } from './app.service';
-import {
-  ApiBody,
-  ApiUnauthorizedResponse,
-  ApiCreatedResponse,
-  ApiBadRequestResponse,
-  ApiUnprocessableEntityResponse,
-  ApiTags,
-} from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('auth')
 @Controller()
@@ -18,6 +17,9 @@ export class AppController {
   @ApiBody({ type: TestDto })
   @Post()
   getHello(@Body() body: TestDto): string {
-    return this.appService.getHello();
+    console.log('HttpExceptionFilter does not log.');
+    throw new Error('Index Out of Bounds');
+    // throw new HttpException('500 errrrr', HttpStatus.INTERNAL_SERVER_ERROR);
+    // return this.appService.getHello();
   }
 }
