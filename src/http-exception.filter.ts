@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 
-@Catch(InternalServerErrorException)
+@Catch()
 export class HttpExceptionFilter
   extends BaseExceptionFilter
   implements ExceptionFilter {
@@ -20,10 +20,9 @@ export class HttpExceptionFilter
         ? exception.getStatus()
         : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    // if (status != 500) super.catch(exception, host);
-
-    console.log('statu:');
+    console.log('status:');
     console.log(status);
+    if (status != 500) super.catch(exception, host);
 
     response.status(status).json({
       statusCode: status,
